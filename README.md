@@ -1,4 +1,4 @@
-# PDFForge
+# PDFdecor
 
 A hub of self-contained PDF tools (merge, split, compress, convert, edit,
 secure, AI) — iLovePDF-style. Every tool is a standalone page with the same
