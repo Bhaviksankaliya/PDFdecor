@@ -1,10 +1,25 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    // NOTE: These are duplicated from tsconfig.base.json on purpose.
+    // Some deploy/build pipelines read this file's compilerOptions but do
+    // NOT follow `extends`. Without `strictNullChecks`, Zod infers every
+    // object property as optional, which breaks the pdf-core call sites in
+    // src/processors.ts. Keep these in sync with tsconfig.base.json.
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node"],
-    "moduleResolution": "Bundler"
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"]
 }
