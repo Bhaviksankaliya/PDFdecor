@@ -1,12 +1,10 @@
 # PDFdecor
 
 A hub of self-contained PDF tools (merge, split, compress, convert, edit,
-secure, AI) — iLovePDF-style. Every tool is a standalone page with the same
+secure, AI). Every tool is a standalone page with the same
 flow: **upload → configure → process → download**. The homepage is a
 searchable, category-filtered grid generated entirely from a single tool
 registry.
-
-> Original project. Not affiliated with, and uses no assets from, iLovePDF.
 
 ---
 
