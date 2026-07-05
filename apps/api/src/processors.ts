@@ -34,7 +34,7 @@ const PDF_MIME = "application/pdf";
 const ZIP_MIME = "application/zip";
 
 /** Parse options with a schema, surfacing a clean error on failure. */
-function parseOpts<T>(schema: z.ZodType<T>, options: unknown): T {
+function parseOpts<S extends z.ZodTypeAny>(schema: S, options: unknown): z.infer<S> {
   const r = schema.safeParse(options ?? {});
   if (!r.success) {
     throw new PdfOperationError(
