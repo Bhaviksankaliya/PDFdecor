@@ -9,5 +9,5 @@ export const config = {
   storageDir:
     process.env.STORAGE_DIR ?? resolve(__dirname, "../../../storage"),
   /** Allowed CORS origin for the web app. */
-  webOrigin: process.env.WEB_ORIGIN ?? "http://localhost:3000",
+  webOrigin: process.env.WEB_ORIGIN ?? "https://pdfdecor-web.vercel.app",
 } as const;
