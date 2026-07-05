@@ -12,6 +12,10 @@ export type ProcessResult = {
   downloadUrl: string;
 };
 
+// Hardcoded base URL of the standalone API (Render). The browser calls this
+// directly, so it must match the deployed API domain exactly (no trailing slash).
+const API_BASE = "https://pdfdecor.onrender.com";
+
 async function asError(res: Response): Promise<never> {
   let message = `Request failed (${res.status}).`;
   try {
@@ -27,7 +31,7 @@ async function asError(res: Response): Promise<never> {
 export async function uploadFile(file: File): Promise<UploadResult> {
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch("/api/upload", { method: "POST", body: form });
+  const res = await fetch(`${API_BASE}/api/upload`, { method: "POST", body: form });
   if (!res.ok) await asError(res);
   return res.json();
 }
@@ -38,11 +42,14 @@ export async function processTool(
   fileIds: string[],
   options: Record<string, unknown> = {},
 ): Promise<ProcessResult> {
-  const res = await fetch(`/api/tools/${slug}/process`, {
+  const res = await fetch(`${API_BASE}/api/tools/${slug}/process`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ fileIds, options }),
   });
   if (!res.ok) await asError(res);
-  return res.json();
+  const data: ProcessResult = await res.json();
+  // downloadUrl comes back relative (/api/files/..); make it absolute so the
+  // <a href> points at the API domain, not the web domain.
+  return { ...data, downloadUrl: `${API_BASE}${data.downloadUrl}` };
 }
