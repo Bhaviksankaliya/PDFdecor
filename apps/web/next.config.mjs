@@ -16,7 +16,7 @@ const nextConfig = {
     return config;
   },
   async rewrites() {
-    const api = process.env.API_INTERNAL_URL ?? "http://localhost:3001";
+    const api = "https://pdfdecor.onrender.com";
     return [{ source: "/api/:path*", destination: `${api}/api/:path*` }];
   },
 };
