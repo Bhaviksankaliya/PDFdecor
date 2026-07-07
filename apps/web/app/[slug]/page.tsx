@@ -5,6 +5,8 @@ import { ArrowLeft, ShieldCheck, Zap } from "lucide-react";
 import { getTool, TOOLS } from "@pdfforge/config";
 import { ToolIcon } from "@/components/ToolIcon";
 import { ToolRenderer } from "@/components/tools/ToolRenderer";
+import { ToolSeoContent } from "@/components/ToolSeoContent";
+import { getToolSeo, SITE_NAME } from "@/lib/seo";
 
 export function generateStaticParams() {
   return TOOLS.map((t) => ({ slug: t.slug }));
@@ -16,8 +18,28 @@ export function generateMetadata({
   params: { slug: string };
 }): Metadata {
   const tool = getTool(params.slug);
-  if (!tool) return { title: "Tool not found — PDFdecor" };
-  return { title: `${tool.title} — PDFdecor`, description: tool.description };
+  if (!tool) return { title: "Tool not found" };
+  const seo = getToolSeo(tool);
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: { canonical: `/${tool.slug}` },
+    openGraph: {
+      title: `${seo.title} | ${SITE_NAME}`,
+      description: seo.description,
+      url: `/${tool.slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+    },
+    // Unbuilt tools render a "coming soon" shell — keep them crawlable but
+    // don't let a thin page compete with the real ones.
+    robots: tool.implemented ? undefined : { index: false, follow: true },
+  };
 }
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
@@ -61,6 +83,8 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
         </div>
 
         <ToolRenderer tool={tool} />
+
+        <ToolSeoContent tool={tool} />
       </div>
     </>
   );
