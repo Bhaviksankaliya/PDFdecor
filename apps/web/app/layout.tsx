@@ -18,8 +18,7 @@ const sans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default:
-      "PDFdecor — Free Online PDF Editor & Tools: Merge, Split, Compress, Convert",
+    default: "PDFdecor: Free Online PDF Editor — Merge, Split, Compress",
     template: `%s | ${SITE_NAME}`,
   },
   description:

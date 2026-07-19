@@ -19,6 +19,17 @@ const nextConfig = {
     const api = "https://pdfdecor.onrender.com";
     return [{ source: "/api/:path*", destination: `${api}/api/:path*` }];
   },
+  async redirects() {
+    // www → apex, permanent: one canonical host for search engines.
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.pdfdecor.com" }],
+        destination: "https://pdfdecor.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
